@@ -1,5 +1,10 @@
 package lt.kslipaitis.osrs.bot.mining;
 
+import java.awt.AWTException;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.CoordsWithScore;
 import lt.kslipaitis.osrs.OpenCVStuff;
@@ -16,11 +21,6 @@ import lt.kslipaitis.osrs.util.RobotUtils;
 import lt.kslipaitis.osrs.util.SleepUtils;
 import net.sourceforge.tess4j.TesseractException;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 @Log4j2
 public class SilverMiningBot implements Bot {
 
@@ -32,7 +32,8 @@ public class SilverMiningBot implements Bot {
   private final MessagesProcessor messagesProcessor;
   private final Screenshot screenshotMap;
 
-  public SilverMiningBot(AllUtils allUtils, AllProcessors allProcessors, AllScreenshots allScreenshots) {
+  public SilverMiningBot(AllUtils allUtils, AllProcessors allProcessors,
+      AllScreenshots allScreenshots) {
     robotUtils = allUtils.getRobotUtils();
     sleepUtils = allUtils.getSleepUtils();
     screenshotMiddle = allScreenshots.getScreenshotMiddle();
@@ -42,7 +43,8 @@ public class SilverMiningBot implements Bot {
     screenshotMap = allScreenshots.getScreenshotMap();
   }
 
-  public void execute() throws URISyntaxException, IOException, InterruptedException, AWTException, TesseractException {
+  public void execute()
+      throws URISyntaxException, IOException, InterruptedException, AWTException, TesseractException {
     while (true) {
       while (inventoryProcessor.isLastItem(ItemTemplate.EMPTY)) {
         if (mineOre()) {
@@ -67,10 +69,12 @@ public class SilverMiningBot implements Bot {
     for (int x = 0; x < middleImage.getWidth(); x++) {
       for (int y = 0; y < middleImage.getHeight(); y++) {
         Color color = new Color(middleImage.getRGB(x, y));
-        if (color.getRed() > 193 && color.getRed() < 200 && color.getGreen() > 180 && color.getGreen() < 190 &&
-                color.getBlue() > 180 && color.getBlue() < 190) {
+        if (color.getRed() > 193 && color.getRed() < 200 && color.getGreen() > 180
+            && color.getGreen() < 190 &&
+            color.getBlue() > 180 && color.getBlue() < 190) {
 
-          robotUtils.moveMouse(screenshotMiddle.getInitialX() + x, screenshotMiddle.getInitialY() + y);
+          robotUtils.moveMouse(screenshotMiddle.getInitialX() + x,
+              screenshotMiddle.getInitialY() + y);
           sleepUtils.randomMillis(100);
           System.out.println("should be rock " + color);
           if (statusProcessor.isRock()) {
@@ -86,7 +90,7 @@ public class SilverMiningBot implements Bot {
 
   private boolean isMined() throws URISyntaxException, IOException {
     return messagesProcessor.getLastMessage().contains("silver") ||
-            messagesProcessor.getLastMessage().contains("no ore");
+        messagesProcessor.getLastMessage().contains("no ore");
   }
 
   private void tripToBank() throws URISyntaxException, IOException, InterruptedException {
@@ -102,7 +106,8 @@ public class SilverMiningBot implements Bot {
 
   private void depositItemsToBank() {
     log.info("deposit");
-    robotUtils.moveMouse(screenshotMiddle.getInitialX() + 565, screenshotMiddle.getInitialY() + 815);
+    robotUtils.moveMouse(screenshotMiddle.getInitialX() + 565,
+        screenshotMiddle.getInitialY() + 815);
     robotUtils.clickLeft();
   }
 
@@ -120,7 +125,8 @@ public class SilverMiningBot implements Bot {
     screenshotMap.takeScreenshot();
     CoordsWithScore coords = OpenCVStuff.findTemplateCoords("map", "mining", "corner1", 5);
 
-    robotUtils.moveMouse(screenshotMap.getInitialX() + coords.getX() - 9, screenshotMap.getInitialY() + coords.getY());
+    robotUtils.moveMouse(screenshotMap.getInitialX() + coords.getX() - 9,
+        screenshotMap.getInitialY() + coords.getY());
     robotUtils.clickLeft();
   }
 
@@ -129,7 +135,8 @@ public class SilverMiningBot implements Bot {
     screenshotMap.takeScreenshot();
     CoordsWithScore coords = OpenCVStuff.findTemplateCoords("map", "mining", "corner2", 5);
 
-    robotUtils.moveMouse(screenshotMap.getInitialX() + coords.getX() - 9, screenshotMap.getInitialY() + coords.getY());
+    robotUtils.moveMouse(screenshotMap.getInitialX() + coords.getX() - 9,
+        screenshotMap.getInitialY() + coords.getY());
     robotUtils.clickLeft();
   }
 
@@ -139,7 +146,7 @@ public class SilverMiningBot implements Bot {
     CoordsWithScore coords = OpenCVStuff.findTemplateCoords("map", "mining", "bank1", 5);
 
     robotUtils.moveMouse(screenshotMap.getInitialX() + coords.getX() + 10,
-                         screenshotMap.getInitialY() + coords.getY() - 10);
+        screenshotMap.getInitialY() + coords.getY() - 10);
 
     robotUtils.clickLeft();
   }
@@ -150,7 +157,7 @@ public class SilverMiningBot implements Bot {
     CoordsWithScore coords = OpenCVStuff.findTemplateCoords("middle", "mining", "bank2", 5);
 
     robotUtils.moveMouse(screenshotMiddle.getInitialX() + coords.getX(),
-                         screenshotMiddle.getInitialY() + coords.getY());
+        screenshotMiddle.getInitialY() + coords.getY());
     robotUtils.clickLeft();
   }
 

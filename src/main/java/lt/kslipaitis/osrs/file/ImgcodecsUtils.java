@@ -1,9 +1,8 @@
 package lt.kslipaitis.osrs.file;
 
+import java.net.URISyntaxException;
 import org.opencv.core.Mat;
 import org.opencv.imgcodecs.Imgcodecs;
-
-import java.net.URISyntaxException;
 
 public class ImgcodecsUtils {
 

@@ -1,11 +1,10 @@
 package lt.kslipaitis.osrs.processor;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.screenshot.Screenshot;
 import lt.kslipaitis.osrs.text.TesseractStuff;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 @Log4j2
 public class MessagesProcessor {

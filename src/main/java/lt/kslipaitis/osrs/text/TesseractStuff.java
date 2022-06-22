@@ -1,12 +1,11 @@
 package lt.kslipaitis.osrs.text;
 
-import lt.kslipaitis.osrs.file.FileUtils;
-import net.sourceforge.tess4j.Tesseract;
-import net.sourceforge.tess4j.TesseractException;
-
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
+import lt.kslipaitis.osrs.file.FileUtils;
+import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.TesseractException;
 
 public class TesseractStuff {
 

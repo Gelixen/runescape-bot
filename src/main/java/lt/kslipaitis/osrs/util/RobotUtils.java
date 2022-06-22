@@ -1,6 +1,7 @@
 package lt.kslipaitis.osrs.util;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Robot;
 import java.awt.event.InputEvent;
 
 public class RobotUtils {

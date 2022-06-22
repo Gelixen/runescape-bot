@@ -39,15 +39,16 @@ public class OptionsUtils {
   public RandomCoordinate getSecondOptionRandomCoordinate(int x, int y) {
     int xRadius = 30;
     int yRadius = OPTION_HEIGHT / 3;
-    return randomUtils.getRandomCoordinateWithinDifferentRadiuses(x, y + getNthOptionOffset(1), xRadius, yRadius);
+    return randomUtils.getRandomCoordinateWithinDifferentRadiuses(x, y + getNthOptionOffset(1),
+        xRadius, yRadius);
   }
 
   public RandomCoordinate getNthOptionRandomCoordinate(int x, int y, int optionNumber) {
     int xRadius = 30;
     int yRadius = OPTION_HEIGHT / 3;
     return randomUtils.getRandomCoordinateWithinDifferentRadiuses(x,
-                                                                  y + getNthOptionOffset(optionNumber - 1),
-                                                                  xRadius,
-                                                                  yRadius);
+        y + getNthOptionOffset(optionNumber - 1),
+        xRadius,
+        yRadius);
   }
 }

@@ -1,14 +1,13 @@
 package lt.kslipaitis.osrs.processor;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.screenshot.Screenshot;
 import lt.kslipaitis.osrs.util.BankUtils;
 import lt.kslipaitis.osrs.util.RandomCoordinate;
 import lt.kslipaitis.osrs.util.RobotUtils;
 import lt.kslipaitis.osrs.util.SleepUtils;
-
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 @Log4j2
 public class BankProcessor {
@@ -21,11 +20,11 @@ public class BankProcessor {
   private final Screenshot screenshotWhole;
 
   public BankProcessor(SleepUtils sleepUtils,
-                       RobotUtils robotUtils,
-                       BankUtils bankUtils,
-                       StatusProcessor statusProcessor,
-                       OptionsProcessor optionsProcessor,
-                       Screenshot screenshotWhole) {
+      RobotUtils robotUtils,
+      BankUtils bankUtils,
+      StatusProcessor statusProcessor,
+      OptionsProcessor optionsProcessor,
+      Screenshot screenshotWhole) {
     this.sleepUtils = sleepUtils;
     this.robotUtils = robotUtils;
     this.bankUtils = bankUtils;
@@ -65,7 +64,8 @@ public class BankProcessor {
     }
   }
 
-  public void takeFromNthSlotWithNthOption(int slotNumber, int optionNumber) throws InterruptedException {
+  public void takeFromNthSlotWithNthOption(int slotNumber, int optionNumber)
+      throws InterruptedException {
     int slotIndex = slotNumber - 1;
 
     RandomCoordinate coordinate = bankUtils.getNthSlotCoords(slotIndex / 8, slotIndex % 8);
@@ -79,13 +79,14 @@ public class BankProcessor {
     getItemFrom(item, coordinate);
   }
 
-  private void getItemFrom(String item, RandomCoordinate coordinate) throws URISyntaxException, IOException {
+  private void getItemFrom(String item, RandomCoordinate coordinate)
+      throws URISyntaxException, IOException {
     getItemFrom(item, coordinate, 1);
   }
 
   private void getItemFrom(String item,
-                           RandomCoordinate coordinate,
-                           int timesToClick) throws URISyntaxException, IOException {
+      RandomCoordinate coordinate,
+      int timesToClick) throws URISyntaxException, IOException {
     robotUtils.moveMouse(coordinate.getX(), coordinate.getY());
     if (statusProcessor.textContains(item)) {
       for (int i = 0; i < timesToClick; i++) {
@@ -102,7 +103,8 @@ public class BankProcessor {
     takeFromSecondSlotNTimesIf(item, 1);
   }
 
-  public void takeFromSecondSlotNTimesIf(String item, int timesToClick) throws URISyntaxException, IOException {
+  public void takeFromSecondSlotNTimesIf(String item, int timesToClick)
+      throws URISyntaxException, IOException {
     RandomCoordinate coordinate = bankUtils.getSecondSlotCoords();
     getItemFrom(item, coordinate, timesToClick);
   }

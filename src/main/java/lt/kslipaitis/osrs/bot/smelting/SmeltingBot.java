@@ -1,17 +1,20 @@
 package lt.kslipaitis.osrs.bot.smelting;
 
+import java.awt.AWTException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.bot.Bot;
 import lt.kslipaitis.osrs.processor.AllProcessors;
 import lt.kslipaitis.osrs.processor.StatusProcessor;
 import lt.kslipaitis.osrs.screenshot.AllScreenshots;
 import lt.kslipaitis.osrs.screenshot.Screenshot;
-import lt.kslipaitis.osrs.util.*;
+import lt.kslipaitis.osrs.util.AllUtils;
+import lt.kslipaitis.osrs.util.RandomCoordinate;
+import lt.kslipaitis.osrs.util.RandomUtils;
+import lt.kslipaitis.osrs.util.RobotUtils;
+import lt.kslipaitis.osrs.util.SleepUtils;
 import net.sourceforge.tess4j.TesseractException;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 @Log4j2
 public abstract class SmeltingBot implements Bot {
@@ -22,7 +25,8 @@ public abstract class SmeltingBot implements Bot {
   protected final StatusProcessor statusProcessor;
   protected final Screenshot screenshotMiddle;
 
-  public SmeltingBot(AllUtils allUtils, AllProcessors allProcessors, AllScreenshots allScreenshots) {
+  public SmeltingBot(AllUtils allUtils, AllProcessors allProcessors,
+      AllScreenshots allScreenshots) {
     this.robotUtils = allUtils.getRobotUtils();
     this.randomUtils = allUtils.getRandomUtils();
     this.sleepUtils = allUtils.getSleepUtils();
@@ -33,7 +37,8 @@ public abstract class SmeltingBot implements Bot {
   // 425 / hour
   // 11.5 k smith exp / hour
   // 14k profit / hour
-  public void execute() throws InterruptedException, URISyntaxException, IOException, AWTException, TesseractException {
+  public void execute()
+      throws InterruptedException, URISyntaxException, IOException, AWTException, TesseractException {
     int toProcess = 10_000;
     final int iterations = toProcess / 13;
     for (int i = 0; i < iterations; i++) {
@@ -66,7 +71,8 @@ public abstract class SmeltingBot implements Bot {
 
       sleepUtils.random(10);
     } else {
-      log.error("{}, {} not a furnace, but {}", coords.getX(), coords.getY(), statusProcessor.getText());
+      log.error("{}, {} not a furnace, but {}", coords.getX(), coords.getY(),
+          statusProcessor.getText());
       screenshotMiddle.takeScreenshot();
 
       System.exit(100);
@@ -90,6 +96,7 @@ public abstract class SmeltingBot implements Bot {
     }
   }
 
-  abstract void depositOutput() throws InterruptedException, TesseractException, URISyntaxException, IOException;
+  abstract void depositOutput()
+      throws InterruptedException, TesseractException, URISyntaxException, IOException;
 
 }

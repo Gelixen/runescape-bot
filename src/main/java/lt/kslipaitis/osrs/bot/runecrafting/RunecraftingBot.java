@@ -1,5 +1,8 @@
 package lt.kslipaitis.osrs.bot.runecrafting;
 
+import java.awt.AWTException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.Coordinate;
 import lt.kslipaitis.osrs.CoordsWithScore;
@@ -14,10 +17,6 @@ import lt.kslipaitis.osrs.util.RobotUtils;
 import lt.kslipaitis.osrs.util.SleepUtils;
 import net.sourceforge.tess4j.TesseractException;
 
-import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 @Log4j2
 public abstract class RunecraftingBot implements Bot {
 
@@ -26,7 +25,8 @@ public abstract class RunecraftingBot implements Bot {
   protected final BankProcessor bankProcessor;
   protected final Screenshot screenshotMiddle;
 
-  public RunecraftingBot(AllUtils allUtils, AllProcessors allProcessors, AllScreenshots allScreenshots) {
+  public RunecraftingBot(AllUtils allUtils, AllProcessors allProcessors,
+      AllScreenshots allScreenshots) {
 
     robotUtils = allUtils.getRobotUtils();
     sleepUtils = allUtils.getSleepUtils();
@@ -36,7 +36,8 @@ public abstract class RunecraftingBot implements Bot {
 
   //  / hour
   //  exp / hour
-  public void execute() throws InterruptedException, URISyntaxException, IOException, AWTException, TesseractException {
+  public void execute()
+      throws InterruptedException, URISyntaxException, IOException, AWTException, TesseractException {
     int iterations = 1;
     while (true) {
       takeEssence();
@@ -68,8 +69,10 @@ public abstract class RunecraftingBot implements Bot {
 
   void depositRunes() throws URISyntaxException, IOException {
     screenshotMiddle.takeScreenshot();
-    CoordsWithScore coordinate = OpenCVStuff.findTemplateCoords("middle", getBankTemplatePath(), "template1", 3);
-    Coordinate adjustedCoordinate = screenshotMiddle.adjustCoordinates(coordinate.getX(), coordinate.getY());
+    CoordsWithScore coordinate = OpenCVStuff.findTemplateCoords("middle", getBankTemplatePath(),
+        "template1", 3);
+    Coordinate adjustedCoordinate = screenshotMiddle.adjustCoordinates(coordinate.getX(),
+        coordinate.getY());
     robotUtils.moveAndLeftClick(adjustedCoordinate.getX(), adjustedCoordinate.getY());
     sleepUtils.random(10);
 

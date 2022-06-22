@@ -1,13 +1,12 @@
 package lt.kslipaitis.osrs.bot.smelting;
 
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import lt.kslipaitis.osrs.processor.AllProcessors;
 import lt.kslipaitis.osrs.processor.BankProcessor;
 import lt.kslipaitis.osrs.screenshot.AllScreenshots;
 import lt.kslipaitis.osrs.util.AllUtils;
-
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 public class SteelSmeltingBot extends SmeltingBot {
 
@@ -16,7 +15,8 @@ public class SteelSmeltingBot extends SmeltingBot {
   // 870 / hour
   // 10.5k smithing / hour
   // 18k / hour profit
-  public SteelSmeltingBot(AllUtils allUtils, AllProcessors allProcessors, AllScreenshots allScreenshots) {
+  public SteelSmeltingBot(AllUtils allUtils, AllProcessors allProcessors,
+      AllScreenshots allScreenshots) {
     super(allUtils, allProcessors, allScreenshots);
     bankProcessor = allProcessors.getBankProcessor();
   }

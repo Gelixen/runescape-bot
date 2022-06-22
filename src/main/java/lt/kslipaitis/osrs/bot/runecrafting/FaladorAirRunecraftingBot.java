@@ -1,5 +1,7 @@
 package lt.kslipaitis.osrs.bot.runecrafting;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.Coordinate;
 import lt.kslipaitis.osrs.CoordsWithScore;
@@ -10,9 +12,6 @@ import lt.kslipaitis.osrs.util.AllUtils;
 import lt.kslipaitis.osrs.util.RandomCoordinate;
 import lt.kslipaitis.osrs.util.RandomUtils;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 @Log4j2
 public class FaladorAirRunecraftingBot extends RunecraftingBot {
 
@@ -20,7 +19,8 @@ public class FaladorAirRunecraftingBot extends RunecraftingBot {
 
   // 28 runs
   // 3.3k exp
-  public FaladorAirRunecraftingBot(AllUtils allUtils, AllProcessors allProcessors, AllScreenshots allScreenshots) {
+  public FaladorAirRunecraftingBot(AllUtils allUtils, AllProcessors allProcessors,
+      AllScreenshots allScreenshots) {
     super(allUtils, allProcessors, allScreenshots);
     randomUtils = allUtils.getRandomUtils();
   }
@@ -45,8 +45,10 @@ public class FaladorAirRunecraftingBot extends RunecraftingBot {
   protected void enterAltarArea() throws URISyntaxException, IOException {
     log.info("Entering altar area...");
     screenshotMiddle.takeScreenshot();
-    CoordsWithScore coordinate = OpenCVStuff.findTemplateCoords("middle", "altar/air", "template1", 3);
-    Coordinate adjustedCoordinate = screenshotMiddle.adjustCoordinates(coordinate.getX(), coordinate.getY());
+    CoordsWithScore coordinate = OpenCVStuff.findTemplateCoords("middle", "altar/air", "template1",
+        3);
+    Coordinate adjustedCoordinate = screenshotMiddle.adjustCoordinates(coordinate.getX(),
+        coordinate.getY());
     robotUtils.moveAndLeftClick(adjustedCoordinate.getX(), adjustedCoordinate.getY());
     sleepUtils.random(3);
   }

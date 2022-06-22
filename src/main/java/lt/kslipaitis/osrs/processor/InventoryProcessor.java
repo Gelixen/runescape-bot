@@ -1,5 +1,11 @@
 package lt.kslipaitis.osrs.processor;
 
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import javax.imageio.ImageIO;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.Coordinate;
 import lt.kslipaitis.osrs.CoordsWithScore;
@@ -11,13 +17,6 @@ import lt.kslipaitis.osrs.util.InventoryUtils;
 import lt.kslipaitis.osrs.util.RandomCoordinate;
 import lt.kslipaitis.osrs.util.RobotUtils;
 
-import javax.imageio.ImageIO;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-
 @Log4j2
 public class InventoryProcessor {
 
@@ -28,11 +27,11 @@ public class InventoryProcessor {
   private final RobotProcessor robotProcessor;
 
   public InventoryProcessor(Screenshot screenshotInventory,
-                            InventoryUtils inventoryUtils,
-                            lt.kslipaitis.osrs.util.RobotUtils robotUtils,
-                            OptionsProcessor optionsProcessor,
-                            StatusProcessor statusProcessor,
-                            RobotProcessor robotProcessor) {
+      InventoryUtils inventoryUtils,
+      lt.kslipaitis.osrs.util.RobotUtils robotUtils,
+      OptionsProcessor optionsProcessor,
+      StatusProcessor statusProcessor,
+      RobotProcessor robotProcessor) {
     this.screenshotInventory = screenshotInventory;
     this.inventoryUtils = inventoryUtils;
     this.robotUtils = robotUtils;
@@ -53,43 +52,45 @@ public class InventoryProcessor {
     robotUtils.releaseKey(KeyEvent.VK_SHIFT);
   }
 
-  public boolean isSecondToLastItem(ItemTemplate itemTemplate) throws URISyntaxException, IOException {
+  public boolean isSecondToLastItem(ItemTemplate itemTemplate)
+      throws URISyntaxException, IOException {
     BufferedImage image = screenshotInventory.takeScreenshot();
     Coordinate coordinate = inventoryUtils.getSecondToLastSlotImageCoordinate();
 
     BufferedImage itemImage = image.getSubimage(coordinate.getX(),
-                                                coordinate.getY(),
-                                                InventoryUtils.ITEM_LENGTH,
-                                                InventoryUtils.ITEM_HEIGHT);
+        coordinate.getY(),
+        InventoryUtils.ITEM_LENGTH,
+        InventoryUtils.ITEM_HEIGHT);
 
     File resultImage = FileUtils.createFile("inventory-second-to-last.png");
     ImageIO.write(itemImage, "png", resultImage);
 
     CoordsWithScore coordsWithScore = OpenCVStuff.findTemplateCoords("inventory-second-to-last",
-                                                                     "inventory",
-                                                                     itemTemplate.getTemplateName(),
-                                                                     3);
+        "inventory",
+        itemTemplate.getTemplateName(),
+        3);
     log.info(coordsWithScore);
 
     return coordsWithScore.getScore() > 0.997;
   }
 
-  public boolean isThirdToLastItem(ItemTemplate itemTemplate) throws URISyntaxException, IOException {
+  public boolean isThirdToLastItem(ItemTemplate itemTemplate)
+      throws URISyntaxException, IOException {
     BufferedImage image = screenshotInventory.takeScreenshot();
     Coordinate coordinate = inventoryUtils.getThirdToLastSlotImageCoordinate();
 
     BufferedImage itemImage = image.getSubimage(coordinate.getX(),
-                                                coordinate.getY(),
-                                                InventoryUtils.ITEM_LENGTH,
-                                                InventoryUtils.ITEM_HEIGHT);
+        coordinate.getY(),
+        InventoryUtils.ITEM_LENGTH,
+        InventoryUtils.ITEM_HEIGHT);
 
     File resultImage = FileUtils.createFile("inventory-third-to-last.png");
     ImageIO.write(itemImage, "png", resultImage);
 
     CoordsWithScore coordsWithScore = OpenCVStuff.findTemplateCoords("inventory-third-to-last",
-                                                                     "inventory",
-                                                                     itemTemplate.getTemplateName(),
-                                                                     3);
+        "inventory",
+        itemTemplate.getTemplateName(),
+        3);
 
     log.info("isThirdToLastItem " + coordsWithScore);
     return coordsWithScore.getScore() > 0.99;
@@ -100,17 +101,17 @@ public class InventoryProcessor {
     Coordinate coordinate = inventoryUtils.getLastSlotImageCoordinate();
 
     BufferedImage itemImage = image.getSubimage(coordinate.getX(),
-                                                coordinate.getY(),
-                                                InventoryUtils.ITEM_LENGTH,
-                                                InventoryUtils.ITEM_HEIGHT);
+        coordinate.getY(),
+        InventoryUtils.ITEM_LENGTH,
+        InventoryUtils.ITEM_HEIGHT);
 
     File resultImage = FileUtils.createFile("inventory-last.png");
     ImageIO.write(itemImage, "png", resultImage);
 
     CoordsWithScore coordsWithScore = OpenCVStuff.findTemplateCoords("inventory-last",
-                                                                     "inventory",
-                                                                     itemTemplate.getTemplateName(),
-                                                                     3);
+        "inventory",
+        itemTemplate.getTemplateName(),
+        3);
 
     log.trace(coordsWithScore);
     return coordsWithScore.getScore() > 0.999;

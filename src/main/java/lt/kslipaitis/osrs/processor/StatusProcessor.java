@@ -1,13 +1,13 @@
 package lt.kslipaitis.osrs.processor;
 
-import lombok.extern.log4j.Log4j2;
-import lt.kslipaitis.osrs.screenshot.Screenshot;
-import lt.kslipaitis.osrs.text.TesseractStuff;
-
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import lombok.extern.log4j.Log4j2;
+import lt.kslipaitis.osrs.screenshot.Screenshot;
+import lt.kslipaitis.osrs.text.TesseractStuff;
 
 @Log4j2
 public class StatusProcessor {
@@ -20,7 +20,7 @@ public class StatusProcessor {
   private final TesseractStuff tesseractStuff;
 
   public StatusProcessor(Screenshot screenshot,
-                         TesseractStuff tesseractStuff) throws URISyntaxException, IOException, AWTException {
+      TesseractStuff tesseractStuff) throws URISyntaxException, IOException, AWTException {
     this.screenshot = screenshot;
     this.tesseractStuff = tesseractStuff;
   }

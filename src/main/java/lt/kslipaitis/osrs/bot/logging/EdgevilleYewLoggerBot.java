@@ -1,5 +1,10 @@
 package lt.kslipaitis.osrs.bot.logging;
 
+import java.awt.AWTException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.bot.Bot;
 import lt.kslipaitis.osrs.inventory.ItemTemplate;
@@ -9,14 +14,14 @@ import lt.kslipaitis.osrs.processor.InventoryProcessor;
 import lt.kslipaitis.osrs.processor.StatusProcessor;
 import lt.kslipaitis.osrs.screenshot.AllScreenshots;
 import lt.kslipaitis.osrs.screenshot.Screenshot;
-import lt.kslipaitis.osrs.util.*;
+import lt.kslipaitis.osrs.util.AllUtils;
+import lt.kslipaitis.osrs.util.BankUtils;
+import lt.kslipaitis.osrs.util.InventoryUtils;
+import lt.kslipaitis.osrs.util.RandomCoordinate;
+import lt.kslipaitis.osrs.util.RandomUtils;
+import lt.kslipaitis.osrs.util.RobotUtils;
+import lt.kslipaitis.osrs.util.SleepUtils;
 import net.sourceforge.tess4j.TesseractException;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Log4j2
 public class EdgevilleYewLoggerBot implements Bot {
@@ -43,7 +48,8 @@ public class EdgevilleYewLoggerBot implements Bot {
 
   // 190 logs / hour
   // 33k exp / hour
-  public EdgevilleYewLoggerBot(AllUtils allUtils, AllProcessors allProcessors, AllScreenshots allScreenshots) {
+  public EdgevilleYewLoggerBot(AllUtils allUtils, AllProcessors allProcessors,
+      AllScreenshots allScreenshots) {
     robotUtils = allUtils.getRobotUtils();
     randomUtils = allUtils.getRandomUtils();
     inventoryUtils = allUtils.getInventoryUtils();
@@ -59,11 +65,14 @@ public class EdgevilleYewLoggerBot implements Bot {
     BOTTOM_TREE_FROM_BOTTOM = randomUtils.getRandomCoordinates(1140, 737, 1231, 812);
     screenshotMiddle = allScreenshots.getScreenshotMiddle();
 
-    coordinatesMapByPosition.put(true, new MoveAndCheckCoordinate(BOTTOM_TREE_FROM_TOP, BOTTOM_TREE_FROM_BOTTOM));
-    coordinatesMapByPosition.put(false, new MoveAndCheckCoordinate(TOP_TREE_FROM_BOTTOM, TOP_TREE_FROM_TOP));
+    coordinatesMapByPosition.put(true,
+        new MoveAndCheckCoordinate(BOTTOM_TREE_FROM_TOP, BOTTOM_TREE_FROM_BOTTOM));
+    coordinatesMapByPosition.put(false,
+        new MoveAndCheckCoordinate(TOP_TREE_FROM_BOTTOM, TOP_TREE_FROM_TOP));
   }
 
-  public void execute() throws InterruptedException, URISyntaxException, IOException, AWTException, TesseractException {
+  public void execute()
+      throws InterruptedException, URISyntaxException, IOException, AWTException, TesseractException {
     int iterations = 1;
     while (true) {
       moveToTreeFromBank();
@@ -88,7 +97,8 @@ public class EdgevilleYewLoggerBot implements Bot {
     sleepUtils.random(12);
   }
 
-  private void chopTillInventoryFull() throws URISyntaxException, IOException, AWTException, TesseractException {
+  private void chopTillInventoryFull()
+      throws URISyntaxException, IOException, AWTException, TesseractException {
     //        RandomCoordinate topTreeFromTop = random.getRandomCoordinates(1164, 554, 1231, 621);
     //        RandomCoordinate bottomTreeFromTop = random.getRandomCoordinates(1112, 1188, 1217, 1300);
     //        RandomCoordinate topTreeFromBottom = random.getRandomCoordinates(1176, 279, 1237, 356);
@@ -109,12 +119,14 @@ public class EdgevilleYewLoggerBot implements Bot {
 
   }
 
-  private void depositLogs() throws URISyntaxException, IOException, AWTException, InterruptedException, TesseractException {
+  private void depositLogs()
+      throws URISyntaxException, IOException, AWTException, InterruptedException, TesseractException {
     moveToBank();
     depositToBank();
   }
 
-  private void checkStatus(RandomCoordinate choppingCoordinate) throws TesseractException, URISyntaxException, IOException {
+  private void checkStatus(RandomCoordinate choppingCoordinate)
+      throws TesseractException, URISyntaxException, IOException {
     long chopStartTime = System.currentTimeMillis();
 
     robotUtils.moveMouse(choppingCoordinate.getX(), choppingCoordinate.getY());
@@ -130,7 +142,8 @@ public class EdgevilleYewLoggerBot implements Bot {
     return !inventoryProcessor.isLastItem(ItemTemplate.YEW_LOG);
   }
 
-  private void moveToWood(boolean isTopPosition) throws TesseractException, URISyntaxException, IOException {
+  private void moveToWood(boolean isTopPosition)
+      throws TesseractException, URISyntaxException, IOException {
     MoveAndCheckCoordinate coordinates = coordinatesMapByPosition.get(isTopPosition);
     RandomCoordinate moveCoordinate = coordinates.getMoveCoordinate();
     RandomCoordinate checkCoordinate = coordinates.getCheckCoordinate();
@@ -147,7 +160,8 @@ public class EdgevilleYewLoggerBot implements Bot {
 
   private void moveToBank() throws URISyntaxException, IOException, AWTException {
     RandomCoordinate bankCoordinateFromTop = randomUtils.getRandomCoordinates(1525, 339, 1555, 367);
-    RandomCoordinate bankCoordinateFromBottom = randomUtils.getRandomCoordinates(1488, 162, 1514, 183);
+    RandomCoordinate bankCoordinateFromBottom = randomUtils.getRandomCoordinates(1488, 162, 1514,
+        183);
     log.info("Moving to bank");
     if (foundBankToMoveTo(bankCoordinateFromTop) || foundBankToMoveTo(bankCoordinateFromBottom)) {
       sleepUtils.random(12);
@@ -164,7 +178,8 @@ public class EdgevilleYewLoggerBot implements Bot {
     //        robot.moveAndLeftClick(coords.getX(), coords.getY());
   }
 
-  private boolean foundBankToMoveTo(RandomCoordinate bankCoordinate) throws URISyntaxException, IOException, AWTException {
+  private boolean foundBankToMoveTo(RandomCoordinate bankCoordinate)
+      throws URISyntaxException, IOException, AWTException {
     robotUtils.moveMouse(bankCoordinate.getX(), bankCoordinate.getY());
 
     if (statusProcessor.isBank()) {

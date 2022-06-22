@@ -1,5 +1,8 @@
 package lt.kslipaitis.osrs.bot;
 
+import java.awt.AWTException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.processor.AllProcessors;
 import lt.kslipaitis.osrs.processor.BankProcessor;
@@ -7,11 +10,11 @@ import lt.kslipaitis.osrs.processor.InventoryProcessor;
 import lt.kslipaitis.osrs.processor.StatusProcessor;
 import lt.kslipaitis.osrs.screenshot.AllScreenshots;
 import lt.kslipaitis.osrs.screenshot.Screenshot;
-import lt.kslipaitis.osrs.util.*;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
+import lt.kslipaitis.osrs.util.AllUtils;
+import lt.kslipaitis.osrs.util.RandomCoordinate;
+import lt.kslipaitis.osrs.util.RandomUtils;
+import lt.kslipaitis.osrs.util.RobotUtils;
+import lt.kslipaitis.osrs.util.SleepUtils;
 
 @Log4j2
 public class SmithingBot implements Bot {
@@ -27,7 +30,8 @@ public class SmithingBot implements Bot {
   // 1k / hour daggers
   // 25k / hour smithing
   // -15k / hour profit
-  public SmithingBot(AllUtils allUtils, AllProcessors allProcessors, AllScreenshots allScreenshots) {
+  public SmithingBot(AllUtils allUtils, AllProcessors allProcessors,
+      AllScreenshots allScreenshots) {
     robotUtils = allUtils.getRobotUtils();
     randomUtils = allUtils.getRandomUtils();
     sleepUtils = allUtils.getSleepUtils();

@@ -1,13 +1,13 @@
 package lt.kslipaitis.osrs.screenshot;
 
-import lt.kslipaitis.osrs.file.FileUtils;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Rectangle;
+import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import javax.imageio.ImageIO;
+import lt.kslipaitis.osrs.file.FileUtils;
 
 public class StatusScreenshot extends Screenshot {
 

@@ -1,5 +1,13 @@
 package lt.kslipaitis.osrs.bot.mining;
 
+import java.awt.Color;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.text.DecimalFormat;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.Coordinate;
 import lt.kslipaitis.osrs.CoordsWithColor;
@@ -9,16 +17,11 @@ import lt.kslipaitis.osrs.processor.AllProcessors;
 import lt.kslipaitis.osrs.processor.InventoryProcessor;
 import lt.kslipaitis.osrs.processor.StatusProcessor;
 import lt.kslipaitis.osrs.screenshot.AllScreenshots;
-import lt.kslipaitis.osrs.util.*;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.text.DecimalFormat;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
+import lt.kslipaitis.osrs.util.AllUtils;
+import lt.kslipaitis.osrs.util.RandomCoordinate;
+import lt.kslipaitis.osrs.util.RandomUtils;
+import lt.kslipaitis.osrs.util.RobotUtils;
+import lt.kslipaitis.osrs.util.SleepUtils;
 
 @Log4j2
 public class IronMiningBot implements Bot {
@@ -32,7 +35,8 @@ public class IronMiningBot implements Bot {
   private final Map<Integer, Integer> retriesMap = new TreeMap<>();
   private final Map<String, Integer> miningTimeMap = new TreeMap<>();
 
-  public IronMiningBot(AllUtils allUtils, AllProcessors allProcessors, AllScreenshots allScreenshots) {
+  public IronMiningBot(AllUtils allUtils, AllProcessors allProcessors,
+      AllScreenshots allScreenshots) {
     robotUtils = allUtils.getRobotUtils();
     randomUtils = allUtils.getRandomUtils();
     sleepUtils = allUtils.getSleepUtils();
@@ -49,9 +53,12 @@ public class IronMiningBot implements Bot {
   public void execute() throws URISyntaxException, IOException {
     Set<CoordsWithColor> coordWithColor = new HashSet<>();
 
-    coordWithColor.add(new CoordsWithColor(new Coordinate(1209, 534), robotUtils.getPixelColor(1209, 534)));
-    coordWithColor.add(new CoordsWithColor(new Coordinate(875, 835), robotUtils.getPixelColor(875, 835)));
-    coordWithColor.add(new CoordsWithColor(new Coordinate(1259, 1182), robotUtils.getPixelColor(1259, 1182)));
+    coordWithColor.add(
+        new CoordsWithColor(new Coordinate(1209, 534), robotUtils.getPixelColor(1209, 534)));
+    coordWithColor.add(
+        new CoordsWithColor(new Coordinate(875, 835), robotUtils.getPixelColor(875, 835)));
+    coordWithColor.add(
+        new CoordsWithColor(new Coordinate(1259, 1182), robotUtils.getPixelColor(1259, 1182)));
 
     printColor(1209, 534);
     printColor(875, 835);
@@ -63,9 +70,10 @@ public class IronMiningBot implements Bot {
         coordWithColor.forEach(c -> {
           final Coordinate coordinate = c.getCoordinate();
           Color pixelColor = robotUtils.getPixelColor(coordinate.getX(), coordinate.getY());
-          RandomCoordinate ClickCoordinate = randomUtils.getRandomCoordinateWithinRadius(coordinate.getX(),
-                                                                                         coordinate.getY(),
-                                                                                         50);
+          RandomCoordinate ClickCoordinate = randomUtils.getRandomCoordinateWithinRadius(
+              coordinate.getX(),
+              coordinate.getY(),
+              50);
           log.trace("Coords {} with color {}", coordinate, pixelColor);
           if (pixelColor.equals(c.getColor())) {
             robotUtils.moveMouse(ClickCoordinate.getX(), ClickCoordinate.getY());

@@ -1,5 +1,8 @@
 package lt.kslipaitis.osrs.bot.logging;
 
+import java.awt.AWTException;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.bot.Bot;
 import lt.kslipaitis.osrs.inventory.ItemTemplate;
@@ -7,12 +10,12 @@ import lt.kslipaitis.osrs.processor.AllProcessors;
 import lt.kslipaitis.osrs.processor.BankProcessor;
 import lt.kslipaitis.osrs.processor.InventoryProcessor;
 import lt.kslipaitis.osrs.processor.StatusProcessor;
-import lt.kslipaitis.osrs.util.*;
+import lt.kslipaitis.osrs.util.AllUtils;
+import lt.kslipaitis.osrs.util.RandomCoordinate;
+import lt.kslipaitis.osrs.util.RandomUtils;
+import lt.kslipaitis.osrs.util.RobotUtils;
+import lt.kslipaitis.osrs.util.SleepUtils;
 import net.sourceforge.tess4j.TesseractException;
-
-import java.awt.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 @Log4j2
 public class DraynorOakLoggerBot implements Bot {
@@ -35,7 +38,8 @@ public class DraynorOakLoggerBot implements Bot {
     this.bankProcessor = allProcessors.getBankProcessor();
   }
 
-  public void execute() throws InterruptedException, URISyntaxException, IOException, AWTException, TesseractException {
+  public void execute()
+      throws InterruptedException, URISyntaxException, IOException, AWTException, TesseractException {
     int iterations = 1;
     while (true) {
       moveToTree();
@@ -79,7 +83,8 @@ public class DraynorOakLoggerBot implements Bot {
         sleepUtils.random(1);
         retryCounter++;
       } else {
-        log.info("Tree chopped in {} s. Waiting to respawn.", (System.currentTimeMillis() - chopStartTime) / 1000);
+        log.info("Tree chopped in {} s. Waiting to respawn.",
+            (System.currentTimeMillis() - chopStartTime) / 1000);
         treeChopped = true;
         retryCounter = 0;
         sleepUtils.random(9);

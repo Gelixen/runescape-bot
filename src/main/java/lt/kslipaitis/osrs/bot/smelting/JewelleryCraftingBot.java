@@ -1,5 +1,8 @@
 package lt.kslipaitis.osrs.bot.smelting;
 
+import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import lombok.extern.log4j.Log4j2;
 import lt.kslipaitis.osrs.inventory.ItemTemplate;
 import lt.kslipaitis.osrs.processor.AllProcessors;
@@ -8,10 +11,6 @@ import lt.kslipaitis.osrs.processor.InventoryProcessor;
 import lt.kslipaitis.osrs.screenshot.AllScreenshots;
 import lt.kslipaitis.osrs.util.AllUtils;
 import lt.kslipaitis.osrs.util.RandomCoordinate;
-
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.net.URISyntaxException;
 
 @Log4j2
 public class JewelleryCraftingBot extends SmeltingBot {
@@ -23,9 +22,9 @@ public class JewelleryCraftingBot extends SmeltingBot {
   // 900 / hour
   // 50k crafting / hour (67k ruby)
   public JewelleryCraftingBot(String gem,
-                              AllUtils allUtils,
-                              AllProcessors allProcessors,
-                              AllScreenshots allScreenshots) {
+      AllUtils allUtils,
+      AllProcessors allProcessors,
+      AllScreenshots allScreenshots) {
     super(allUtils, allProcessors, allScreenshots);
     this.gem = gem;
     bankProcessor = allProcessors.getBankProcessor();

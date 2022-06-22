@@ -1,6 +1,7 @@
 package lt.kslipaitis.osrs.screenshot;
 
-import java.awt.*;
+import java.awt.Rectangle;
+import java.awt.Robot;
 
 public class MiddleScreenshot extends Screenshot {
 
